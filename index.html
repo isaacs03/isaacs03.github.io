@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Isaac Song — Embedded Systems</title>
+<meta name="description" content="Isaac Song, embedded systems engineer working with FPGAs and microcontrollers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #12161c;
+    --panel: #171d25;
+    --line: #2a323f;
+    --line-soft: #232a35;
+    --text: #e8e6de;
+    --muted: #8a93a1;
+    --copper: #c97c3d;
+    --signal: #7fa88a;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0 / 100% 42px,
+      var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* header */
+  header.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0;
+  }
+  header.top .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .chip-mark {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--copper);
+    background: var(--panel);
+  }
+  .chip-mark::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 12px;
+    width: 8px;
+    height: 3px;
+    background: var(--bg);
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    margin-left: 26px;
+    transition: color 0.15s ease;
+  }
+  nav a:hover { color: var(--signal); }
+
+  /* hero */
+  .hero {
+    padding: 56px 0 8px;
+  }
+  .hero .kicker {
+    color: var(--copper);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    margin: 0 0 14px;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 58px);
+    font-weight: 600;
+    margin: 0 0 18px;
+    letter-spacing: -0.01em;
+  }
+  .hero .sub {
+    max-width: 52ch;
+    color: var(--muted);
+    font-size: 17px;
+    margin: 0;
+  }
+
+  .trace {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 36px;
+  }
+  .trace path.curve {
+    fill: none;
+    stroke: var(--signal);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: draw 1.8s ease-out 0.2s forwards;
+  }
+  .trace .baseline {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .trace .marker {
+    fill: var(--copper);
+    opacity: 0;
+    animation: appear 0.4s ease-out 1.9s forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes appear { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .trace path.curve { animation: none; stroke-dashoffset: 0; }
+    .trace .marker { animation: none; opacity: 1; }
+  }
+
+  section { padding: 64px 0; border-top: 1px solid var(--line-soft); }
+  section h2 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    margin: 0 0 28px;
+  }
+
+  .about p { max-width: 58ch; color: var(--text); font-size: 16px; }
+
+  /* projects */
+  .project {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    padding: 30px 30px 26px;
+  }
+  .project::before, .project::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--copper);
+    opacity: 0.7;
+  }
+  .project::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .project::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .project-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-bottom: 14px;
+  }
+  .project-head h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .project-head a {
+    font-size: 13px;
+    color: var(--signal);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .project-head a:hover { border-bottom-color: var(--signal); }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin: 0 0 26px;
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 28px;
+    margin: 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .specs div { display: flex; flex-direction: column; gap: 4px; }
+  .specs dt {
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  .specs dd {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* contact */
+  .contact-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .contact-rows a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-soft);
+    transition: color 0.15s ease;
+  }
+  .contact-rows a:hover { color: var(--signal); }
+  .contact-rows a .pin {
+    width: 6px;
+    height: 6px;
+    background: var(--copper);
+    border-radius: 50%;
+    flex: none;
+  }
+
+  footer {
+    padding: 32px 0 60px;
+    color: var(--line);
+    font-size: 12.5px;
+  }
+
+  @media (max-width: 560px) {
+    .specs { grid-template-columns: 1fr 1fr; }
+    .hero { padding-top: 40px; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="top">
+    <div class="wrap">
+      <div class="chip-mark mono">IS</div>
+      <nav class="mono">
+        <a href="#about">about</a>
+        <a href="#projects">projects</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <p class="kicker mono">embedded systems engineer</p>
+      <h1>Isaac Song</h1>
+      <p class="sub">I like working close to the hardware — firmware for FPGAs and microcontrollers, where the code has to answer to the silicon underneath it.</p>
+
+      <svg class="trace" viewBox="0 0 720 140" preserveAspectRatio="none" role="img" aria-label="Battery discharge curve">
+        <line class="baseline" x1="0" y1="120" x2="720" y2="120" />
+        <path class="curve" d="M0,40 C60,42 90,55 120,58 L120,90 C170,92 220,95 260,96 L260,108 C340,110 420,111 480,112 C540,112 600,113 660,114 L720,114" />
+        <circle class="marker" cx="120" cy="58" r="4" />
+        <circle class="marker" cx="260" cy="96" r="4" />
+      </svg>
+    </section>
+
+    <section id="about" class="about">
+      <h2 class="mono">about</h2>
+      <p>I'm an embedded systems engineer who likes getting close to the hardware — writing firmware that talks directly to ADCs, EEPROMs, and communication buses, and reasoning about timing, power, and reliability at the register level. Most of what I build lives somewhere between an FPGA fabric and a microcontroller's peripheral map.</p>
+    </section>
+
+    <section id="projects" class="projects">
+      <h2 class="mono">projects</h2>
+
+      <article class="project">
+        <div class="project-head">
+          <h3>Battery Telemetry Logger</h3>
+          <a href="https://github.com/isaacs03/Battery-Telemetry-Logger" target="_blank" rel="noopener">View repository</a>
+        </div>
+        <p class="project-desc">A self-contained battery telemetry system built on an STM32F0Discovery board running FreeRTOS. HAL-based drivers handle I2C and SPI EEPROMs for persistent logging and calibration storage, while ADC-driven sensor simulation feeds a software coulomb counter. Two firmware roles communicate over a UART command/response link.</p>
+        <dl class="specs mono">
+          <div><dt>Board</dt><dd>STM32F0Discovery</dd></div>
+          <div><dt>RTOS</dt><dd>FreeRTOS</dd></div>
+          <div><dt>Storage</dt><dd>I2C / SPI EEPROM</dd></div>
+          <div><dt>Comms</dt><dd>UART command/response</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2 class="mono">contact</h2>
+      <div class="contact-rows">
+        <a href="mailto:isaacsong20@gmail.com"><span class="pin"></span>isaacsong20@gmail.com</a>
+        <a href="https://github.com/isaacs03" target="_blank" rel="noopener"><span class="pin"></span>github.com/isaacs03</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap mono">
+    &copy; <span id="year"></span> Isaac Song
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
